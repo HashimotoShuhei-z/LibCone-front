@@ -208,7 +208,7 @@ paths:
                 $ref: '#/components/schemas/Review-create-body'
 
   /api/user/book_reviews/{review_id}:
-    post:
+    put:
       tags:
         - 社員向け機能
       summary: 社員が口コミを編集する
@@ -376,6 +376,263 @@ paths:
         '204':
           description: Gift-request is deleted
 
+  /api/admin/internal-books:
+    post:
+      tags:
+        - 管理者向け機能
+      summary: 社内書籍を作成
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book-create-body'
+      responses:
+        '201':
+          description: Book is created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book-create-body'
+
+  /api/admin/internal-books/{book_id}:
+    put:
+      tags:
+        - 管理者向け機能
+      summary: 社内書籍を編集
+      parameters:
+        - in: path
+          name: book_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book-create-body'
+      responses:
+        '201':
+          description: Book is edited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book-create-body'
+    delete:
+      tags:
+        - 管理者向け機能
+      summary: 社内書籍を削除
+      parameters:
+        - in: path
+          name: book_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Book is deleted
+
+  /api/admin/lending-logs:
+    get:
+      tags:
+        - 管理者向け機能
+      summary: 書籍貸出履歴の閲覧
+      parameters:
+        - in: query
+          name: book_name
+          description: 書籍名での部分検索
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: user_name
+          description: 社員名での部分検索
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lending-logs are fetched
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lending-log'
+    post:
+      tags:
+        - 管理者向け機能
+      summary: 書籍貸出履歴を作成
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lending-log-create-body'
+      responses:
+        '201':
+          description: Lending-log is created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lending-log-create-body'
+
+  /api/admin/lending-logs/{log_id}:
+    put:
+      tags:
+        - 管理者向け機能
+      summary: 書籍貸出履歴を編集
+      parameters:
+        - in: path
+          name: log_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lending-log-create-body'
+      responses:
+        '201':
+          description: Lending-log is edited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lending-log-create-body'
+    delete:
+      tags:
+        - 管理者向け機能
+      summary: 書籍貸出履歴の削除
+      parameters:
+        - in: path
+          name: log_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Lending-log is deleted
+
+  /api/admin/book-reviews/{review_id}:
+    delete:
+      tags:
+        - 管理者向け機能
+      summary: 社員の書籍への口コミを削除
+      parameters:
+        - in: path
+          name: review_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Book-review is deleted
+
+  /api/admin/book-requests:
+    get:
+      tags:
+        - 管理者向け機能
+      summary: 社員の書籍購入希望の一覧を閲覧
+      parameters:
+        - in: query
+          name: book_name
+          description: 書籍名での部分検索
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Book-requests are fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Purchase-request'
+  /api/admin/purchase:
+    post:
+      tags:
+        - 管理者向け機能
+      summary: 購入希望一覧から選択して一括購入
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Purchase-create-body'
+      responses:
+        '201':
+          description: Admin purcahsed the books
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Purchase-create-body'
+
+  /api/admin/users:
+    get:
+      tags:
+        - 管理者向け機能
+      summary: 社員情報一覧の閲覧
+      parameters:
+        - in: query
+          name: user_name
+          description: 社員名での部分検索
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Users are fetched
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Mypage'
+
+  /api/admin/users/{user_id}:
+    get:
+      tags:
+        - 管理者向け機能
+      summary: 社員情報の詳細の閲覧
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: User is fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mypage'
+    put:
+      tags:
+        - 管理者向け機能
+      summary: 社員情報の詳細の編集
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User-create-body'
+      responses:
+        '201':
+          description: User is edited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User-create-body'
+
 components:
   schemas:
     Book:
@@ -434,6 +691,7 @@ components:
         - author
         - booksGenreName
         - publisherName
+        - itemPrice
         - smallImageUrl
         - mediumImageUrl
         - largeImageUrl
@@ -452,6 +710,9 @@ components:
         publisherName:
           type: string
           example: 講談社
+        itemPrice:
+          type: integer
+          example: 1296
         smallImageUrl:
           type: string
           example: https://example-book-small.jpeg
@@ -478,7 +739,7 @@ components:
           example: 1
         userName:
           type: string
-          example: 1
+          example: 鉄腕アトム
         userIcon:
           type: string
           example: https://example-icon.jpeg
@@ -579,6 +840,63 @@ components:
           type: integer
           example: 1
 
+    Purchase-request:
+      type: object
+      required:
+        - title
+        - author
+        - publisherName
+        - itemPrice
+        - userId
+        - userName
+        - userIcon
+        - purchaseType
+        - hopeDeliverAt
+        - existInOffice
+        - purchaseStatus
+      properties:
+        title:
+          type: string
+          example: リーダブルコード
+        author:
+          type: string
+          example: ダスティン・ボズウェル
+        publisherName:
+          type: string
+          example: 講談社
+        itemPrice:
+          type: integer
+          example: 1296
+        userId:
+          type: integer
+          example: 1
+        userName:
+          type: string
+          example: 鉄腕アトム
+        userIcon:
+          type: string
+          example: https://example-icon.jpeg
+        purchaseType:
+          type: string
+          enum:
+            - 会社用
+            - 個人用
+        hopeDeliverAt:
+          type: string
+          example: '2024-10-12'
+          format: date
+        existInOffice:
+          type: boolean
+          example: false
+        purchaseStatus:
+          type: string
+          enum:
+            - 未購入
+            - 購入申請中
+            - 配達中
+            - 配達済み
+            - 拒否
+
     Purchase-request-body:
       type: object
       required:
@@ -587,6 +905,8 @@ components:
         - publisherName #以上3つは外部書籍を特定するためのもの。改良の余地あり
         - userID
         - purchaseType
+        - itemPrice
+        - hopeDeliveryDate
       properties:
         title:
           type: string
@@ -614,13 +934,57 @@ components:
         - userIcon
         - monthPoint
         - specialPoint
+        - totalBooksPurchased
+        - totalReviews
       properties:
         userId:
           type: integer
           example: 1
         userName:
           type: string
-          example: 1
+          example: 鉄腕アトム
+        userIcon:
+          type: string
+          example: https://example-icon.jpeg
+        monthPoint:
+          type: integer
+          # description: 1ヶ月毎にリセットされるポイントの残り / 1pt=1円
+          example: 3000
+        specialPoint:
+          type: integer
+          # description: 口コミ投稿時などに獲得できて、永久に消えないポイントの残り / 1pt=1円
+          example: 1200
+        totalBooksPurchased:
+          type: integer
+          example: 12
+        totalReviews:
+          type: integer
+          example: 9
+
+    Mypage-create-body:
+      type: object
+      required:
+        - userName
+        - userIcon
+      properties:
+        userName:
+          type: string
+          example: 鉄腕アトム
+        userIcon:
+          type: string
+          example: https://example-icon.jpeg
+
+    User-create-body:
+      type: object
+      required:
+        - userName
+        - userIcon
+        - monthPoint
+        - specialPoint
+      properties:
+        userName:
+          type: string
+          example: 鉄腕アトム
         userIcon:
           type: string
           example: https://example-icon.jpeg
@@ -731,3 +1095,112 @@ components:
         point:
           type: integer
           example: 2500
+
+    Book-create-body:
+      type: object
+      required:
+        - bookName
+        - bookGenreName
+        - bookImage
+        - bookPublisher
+        - authorName
+      properties:
+        bookName:
+          type: string
+          example: リーダブルコード
+        bookGenreName:
+          type: array
+          items:
+            type: string
+            example: 技術, IT
+        bookImage:
+          type: string
+          example: https://example-book.jpeg
+        bookPublisher:
+          type: string
+          example: 講談社
+        authorName:
+          type: string
+          example: ダスティン・ボズウェル
+
+    Lending-log:
+      type: object
+      required:
+        - userId
+        - userName
+        - bookId
+        - bookName
+        - bookGenreName
+        - authorName
+        - startDate
+        - endDate
+        - returnDate
+      properties:
+        userId:
+          type: integer
+          example: 1
+        userName:
+          type: string
+          example: 鉄腕アトム
+        bookId:
+          type: integer
+          example: 1
+        bookName:
+          type: string
+          example: リーダブルコード
+        bookGenreName:
+          type: array
+          items:
+            type: string
+            example: 技術, IT
+        authorName:
+          type: string
+          example: ダスティン・ボズウェル
+        startDate:
+          type: string
+          example: '2024-07-21'
+          format: date
+        endDate:
+          type: string
+          example: '2024-08-21'
+          format: date
+        returnDate:
+          type: string
+          example: '2024-08-16'
+          format: date
+
+    Lending-log-create-body:
+      type: object
+      required:
+        - userId
+        - bookId
+        - startDate
+        - endDate
+      properties:
+        userId:
+          type: integer
+          example: 1
+        bookId:
+          type: integer
+          example: 1
+        startDate:
+          type: string
+          example: '2024-07-21'
+          format: date
+        endDate:
+          type: string
+          example: '2024-08-21'
+          format: date
+        returnDate:
+          type: string
+          example: '2024-08-16'
+          format: date
+
+    Purchase-create-body:
+      type: object
+      properties:
+        bookRequestIds:
+          type: array
+          items:
+            type: integer
+            example: 2, 5, 6, 8, 10

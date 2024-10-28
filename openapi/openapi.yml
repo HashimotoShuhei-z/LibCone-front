@@ -2,7 +2,84 @@ openapi: 3.0.0
 info:
   title: 書籍管理アプリのAPI
   version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+
+security:
+  - Jwt-Auth: []
+
 paths:
+  /api/login:
+    post:
+      tags:
+        - 認証機能
+      summary: 全ユーザー向けのログイン機能
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login-request-body'
+      responses:
+        '200':
+          description: User logged in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth-token-response'
+      security: []
+
+  /api/logout:
+    post:
+      tags:
+        - 認証機能
+      summary: 全ユーザー向けのログアウト機能
+      responses:
+        '200':
+          description: User logged out
+      security: []
+
+  /api/user/register:
+    post:
+      tags:
+        - 認証機能
+      summary: ユーザーの登録機能
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User-register-request-body'
+      responses:
+        '201':
+          description: User registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth-token-response'
+      security: []
+
+  /api/admin/register:
+    post:
+      tags:
+        - 認証機能
+      summary: 管理者の登録機能
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Admin-register-request-body'
+      responses:
+        '201':
+          description: Admin registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth-token-response'
+      security: []
+
   /api/internal-books:
     get:
       tags:
@@ -634,7 +711,67 @@ paths:
                 $ref: '#/components/schemas/User-create-body'
 
 components:
+  securitySchemes:
+    Jwt-Auth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
+    Login-request-body:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    Auth-token-response:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          example: KnxsHfo4Hd79sfhBbShydPiMljapeivn3
+
+    User-register-request-body:
+      type: object
+      required:
+        - name
+        - email
+        - password
+        - confirmPassword
+      properties:
+        name:
+          type: string
+          example: 佐藤
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        confirmPassword:
+          type: string
+          format: password
+
+    Admin-register-request-body:
+      type: object
+      required:
+        - type
+      allOf:
+        - $ref: '#/components/schemas/User-register-request-body'
+        - properties:
+            role:
+              type: string
+              example: admin
+
     Book:
       type: object
       required:

@@ -1,0 +1,5 @@
+{
+  "yaml.schemas": {
+    "swaggerviewer:openapi": "file:///Users/hassii/lib-mane/front-app/openapi/openapi.yml"
+  }
+}

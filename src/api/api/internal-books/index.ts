@@ -15,4 +15,12 @@ export type Methods = DefineMethods<{
     /** Internal-books are fetched */
     resBody: Types.Internal_book[];
   };
+
+  /** isbnからbooksテーブルに既に存在する書籍なのか確認しつつ、book_companyテーブルにinsert */
+  post: {
+    status: 201;
+    /** Book is created */
+    resBody: Types.Book_create_body;
+    reqBody: Types.Book_create_body;
+  };
 }>;

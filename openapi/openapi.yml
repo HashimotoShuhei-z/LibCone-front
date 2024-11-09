@@ -40,7 +40,7 @@ paths:
           description: User logged out
       security: []
 
-  /api/user/register:
+  /api/users/register:
     post:
       tags:
         - 認証機能
@@ -107,6 +107,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Internal-book'
+    post:
+      tags:
+        - 管理者向け機能
+      summary: 社内書籍を作成
+      description: isbnからbooksテーブルに既に存在する書籍なのか確認しつつ、book_companyテーブルにinsert
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book-create-body'
+      responses:
+        '201':
+          description: Book is created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book-create-body'
 
   /api/internal-books/{book_id}:
     get:
@@ -133,346 +151,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Review'
-
-  /api/book-reviews:
-    get:
-      tags:
-        - 全ユーザー向け機能
-      summary: 社内の口コミ一覧を閲覧
-      parameters:
-        - in: query
-          name: book_name
-          description: 書籍名での部分検索
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: book_category_id
-          description: 書籍カテゴリーでソート
-          required: false
-          schema:
-            type: integer
-        - in: query
-          name: user_id
-          description: 特定のユーザーの口コミを検索
-          required: false
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Book-reviews are fetched
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Review-with-book'
-
-  /api/book-reviews/{review_id}:
-    get:
-      tags:
-        - 全ユーザー向け機能
-      summary: 社内の口コミの詳細を閲覧
-      parameters:
-        - in: path
-          name: review_id
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Book-review is fetched
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Review-with-book'
-
-  /api/external-books:
-    get:
-      tags:
-        - 全ユーザー向け機能
-      summary: 世の書籍の一覧を閲覧
-      parameters:
-        - in: query
-          name: book_name
-          description: 書籍名での部分検索
-          required: false
-          schema:
-            type: string
-        - in: query
-          name: book_category_id
-          description: 書籍カテゴリーでソート
-          required: false
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Internal-books are fetched
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/External-book'
-
-  /api/user/books/{book_id}/borrow:
-    post:
-      tags:
-        - 社員向け機能
-      summary: 社員が書籍を借りる
-      parameters:
-        - in: path
-          name: book_id
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Borrow-request-body'
-      responses:
-        '201':
-          description: User borrowed a book
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Borrow-request-body'
-
-  /api/user/books/{book_id}/return:
-    post:
-      tags:
-        - 社員向け機能
-      summary: 書籍を返却する
-      parameters:
-        - in: path
-          name: book_id
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Return-request-body'
-      responses:
-        '201':
-          description: User borrowed a book
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Return-request-body'
-
-  /api/user/book-reviews:
-    post:
-      tags:
-        - 社員向け機能
-      summary: 社員が口コミを投稿する
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Review-create-body'
-      responses:
-        '201':
-          description: User posted a review
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Review-create-body'
-
-  /api/user/book-reviews/{review_id}:
-    put:
-      tags:
-        - 社員向け機能
-      summary: 社員が口コミを編集する
-      parameters:
-        - in: path
-          name: review_id
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Review-create-body'
-      responses:
-        '201':
-          description: User edited the review
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Review-create-body'
-
-  /api/user/book-reviews/{review_id}/reaction:
-    post:
-      tags:
-        - 社員向け機能
-      summary: 社員が口コミへリアクションする
-      parameters:
-        - in: path
-          name: review_id
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Reaction-request-body'
-      responses:
-        '201':
-          description: User reacted to the review
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Reaction-request-body'
-
-  /api/user/book-requests:
-    post:
-      tags:
-        - 社員向け機能
-      summary: 社員が特定の書籍の購入依頼をする
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Purchase-request-body'
-      responses:
-        '201':
-          description: User reacted to the review
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Purchase-request-body'
-
-  /api/user/my-page:
-    get:
-      tags:
-        - 社員向け機能
-      summary: 社員がマイページを閲覧
-      responses:
-        '200':
-          description: Mypage data is fetched
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Mypage'
-
-  /api/user/{user_id}/reading-log:
-    get:
-      tags:
-        - 社員向け機能
-      summary: 社員が特定の社員の読書履歴を閲覧
-      parameters:
-        - in: path
-          name: user_id
-          required: true
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Reading-log is fetched
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Reading-log'
-
-  /api/user/gift:
-    post:
-      tags:
-        - 社員向け機能
-      summary: 社員が特定の社員にspecial-pointを送る
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Gift-create-body'
-      responses:
-        '201':
-          description: User sent point
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Gift-create-body'
-
-  /api/user/gift-request:
-    get:
-      tags:
-        - 社員向け機能
-      summary: ユーザーが送ったor送られたギフトリクエストの一覧を閲覧
-      responses:
-        '200':
-          description: Gift-requests are fetched
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/GiftRequest'
-    post:
-      tags:
-        - 社員向け機能
-      summary: 社員が特定の社員にspecial-pointの送信を依頼
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GiftRequest-create-body'
-      responses:
-        '201':
-          description: User requested point
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GiftRequest-create-body'
-
-  /api/user/gift-request/{request_id}:
-    delete:
-      tags:
-        - 社員向け機能
-      summary: special-point送信の依頼を削除
-      parameters:
-        - in: path
-          name: request_id
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: Gift-request is deleted
-
-  /api/admin/internal-books:
-    post:
-      tags:
-        - 管理者向け機能
-      summary: 社内書籍を作成
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Book-create-body'
-      responses:
-        '201':
-          description: Book is created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Book-create-body'
-
-  /api/admin/internal-books/{book_id}:
     put:
       tags:
         - 管理者向け機能
@@ -510,7 +188,353 @@ paths:
         '204':
           description: Book is deleted
 
-  /api/admin/lending-logs:
+  /api/book-reviews:
+    get:
+      tags:
+        - 全ユーザー向け機能
+      summary: 社内の口コミ一覧を閲覧
+      parameters:
+        - in: query
+          name: book_name
+          description: 書籍名での部分検索
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: book_category_id
+          description: 書籍カテゴリーでソート
+          required: false
+          schema:
+            type: integer
+        - in: query
+          name: user_id
+          description: 特定のユーザーの口コミを検索
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Book-reviews are fetched
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Review-with-book'
+    post:
+      tags:
+        - 社員向け機能
+      summary: 社員が口コミを投稿する
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review-create-body'
+      responses:
+        '201':
+          description: User posted a review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review-create-body'
+
+  /api/book-reviews/{review_id}:
+    get:
+      tags:
+        - 全ユーザー向け機能
+      summary: 社内の口コミの詳細を閲覧
+      parameters:
+        - in: path
+          name: review_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Book-review is fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review-with-book'
+    put:
+      tags:
+        - 社員向け機能
+      summary: 社員が口コミを編集する
+      parameters:
+        - in: path
+          name: review_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Review-create-body'
+      responses:
+        '201':
+          description: User edited the review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Review-create-body'
+    delete:
+      tags:
+        - 管理者向け機能
+      summary: 社員の書籍への口コミを削除
+      parameters:
+        - in: path
+          name: review_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Book-review is deleted
+
+  /api/external-books:
+    get:
+      tags:
+        - 全ユーザー向け機能
+      summary: 世の書籍の一覧を閲覧
+      parameters:
+        - in: query
+          name: book_name
+          description: 書籍名での部分検索
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: book_category_id
+          description: 書籍カテゴリーでソート
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Internal-books are fetched
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/External-book'
+
+  /api/books/{book_id}/borrow:
+    post:
+      tags:
+        - 社員向け機能
+      summary: 社員が書籍を借りる
+      parameters:
+        - in: path
+          name: book_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Borrow-request-body'
+      responses:
+        '201':
+          description: User borrowed a book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Borrow-request-body'
+
+  /api/books/{book_id}/return:
+    post:
+      tags:
+        - 社員向け機能
+      summary: 書籍を返却する
+      parameters:
+        - in: path
+          name: book_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Return-request-body'
+      responses:
+        '201':
+          description: User borrowed a book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Return-request-body'
+
+  /api/book-reviews/{review_id}/reaction:
+    post:
+      tags:
+        - 社員向け機能
+      summary: 社員が口コミへリアクションする
+      parameters:
+        - in: path
+          name: review_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reaction-request-body'
+      responses:
+        '201':
+          description: User reacted to the review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reaction-request-body'
+
+  /api/book-purchase-requests:
+    get:
+      tags:
+        - 管理者向け機能
+      summary: 社員の書籍購入希望の一覧を閲覧
+      parameters:
+        - in: query
+          name: book_name
+          description: 書籍名での部分検索
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Book-requests are fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Purchase-request'
+    post:
+      tags:
+        - 社員向け機能
+      summary: 社員が特定の書籍の購入依頼をする
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Purchase-request-body'
+      responses:
+        '201':
+          description: User reacted to the review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Purchase-request-body'
+
+  /api/my-page:
+    get:
+      tags:
+        - 社員向け機能
+      summary: 社員がマイページを閲覧
+      responses:
+        '200':
+          description: Mypage data is fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mypage'
+
+  /api/users/{user_id}/reading-log:
+    get:
+      tags:
+        - 社員向け機能
+      summary: 社員が特定の社員の読書履歴を閲覧
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Reading-log is fetched
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Reading-log'
+
+  /api/gift:
+    post:
+      tags:
+        - 社員向け機能
+      summary: 社員が特定の社員にspecial-pointを送る
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Gift-create-body'
+      responses:
+        '201':
+          description: User sent point
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gift-create-body'
+
+  /api/gift-request:
+    get:
+      tags:
+        - 社員向け機能
+      summary: ユーザーが送ったor送られたギフトリクエストの一覧を閲覧
+      responses:
+        '200':
+          description: Gift-requests are fetched
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GiftRequest'
+    post:
+      tags:
+        - 社員向け機能
+      summary: 社員が特定の社員にspecial-pointの送信を依頼
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GiftRequest-create-body'
+      responses:
+        '201':
+          description: User requested point
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GiftRequest-create-body'
+
+  /api/gift-request/{request_id}:
+    delete:
+      tags:
+        - 社員向け機能
+      summary: special-point送信の依頼を削除
+      parameters:
+        - in: path
+          name: request_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Gift-request is deleted
+
+  /api/lending-logs:
     get:
       tags:
         - 管理者向け機能
@@ -555,7 +579,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Lending-log-create-body'
 
-  /api/admin/lending-logs/{log_id}:
+  /api/lending-logs/{log_id}:
     put:
       tags:
         - 管理者向け機能
@@ -593,41 +617,7 @@ paths:
         '204':
           description: Lending-log is deleted
 
-  /api/admin/book-reviews/{review_id}:
-    delete:
-      tags:
-        - 管理者向け機能
-      summary: 社員の書籍への口コミを削除
-      parameters:
-        - in: path
-          name: review_id
-          required: true
-          schema:
-            type: integer
-      responses:
-        '204':
-          description: Book-review is deleted
-
-  /api/admin/book-requests:
-    get:
-      tags:
-        - 管理者向け機能
-      summary: 社員の書籍購入希望の一覧を閲覧
-      parameters:
-        - in: query
-          name: book_name
-          description: 書籍名での部分検索
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Book-requests are fetched
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Purchase-request'
-  /api/admin/purchase:
+  /api/purchase:
     post:
       tags:
         - 管理者向け機能
@@ -646,7 +636,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Purchase-create-body'
 
-  /api/admin/users:
+  /api/users:
     get:
       tags:
         - 管理者向け機能
@@ -668,7 +658,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Mypage'
 
-  /api/admin/users/{user_id}:
+  /api/users/{user_id}:
     get:
       tags:
         - 管理者向け機能
@@ -981,9 +971,8 @@ components:
       type: object
       required:
         - title
-        - author
-        - publisherName
         - itemPrice
+        - itemUrl
         - userId
         - userName
         - userIcon
@@ -995,15 +984,12 @@ components:
         title:
           type: string
           example: リーダブルコード
-        author:
-          type: string
-          example: ダスティン・ボズウェル
-        publisherName:
-          type: string
-          example: 講談社
         itemPrice:
           type: integer
           example: 1296
+        itemUrl:
+          type: string
+          example: https://example.com
         userId:
           type: integer
           example: 1
@@ -1038,22 +1024,25 @@ components:
       type: object
       required:
         - title
-        - author
-        - publisherName #以上3つは外部書籍を特定するためのもの。改良の余地あり
+        - isbn #書籍の識別用に設けられた国際規格コード
+        - itemPrice
+        - itemUrl
         - userID
         - purchaseType
-        - itemPrice
-        - hopeDeliveryDate
+        - hopeDeliveryAt
       properties:
         title:
           type: string
           example: リーダブルコード
-        author:
+        isbn:
           type: string
-          example: ダスティン・ボズウェル
-        publisherName:
+          example: ahjkdfhlihweflahlidhfliue
+        itemPrice:
+          type: integer
+          example: 1296
+        itemUrl:
           type: string
-          example: 講談社
+          example: https://example.com
         userId:
           type: integer
           example: 1
@@ -1062,6 +1051,10 @@ components:
           enum:
             - 会社用
             - 個人用
+        hopeDeliveryAt:
+          type: string
+          example: '2024-10-12'
+          format: date
 
     Mypage:
       type: object
@@ -1071,7 +1064,6 @@ components:
         - userIcon
         - monthPoint
         - specialPoint
-        - totalBooksPurchased
         - totalReviews
       properties:
         userId:
@@ -1091,9 +1083,6 @@ components:
           type: integer
           # description: 口コミ投稿時などに獲得できて、永久に消えないポイントの残り / 1pt=1円
           example: 1200
-        totalBooksPurchased:
-          type: integer
-          example: 12
         totalReviews:
           type: integer
           example: 9
@@ -1236,29 +1225,11 @@ components:
     Book-create-body:
       type: object
       required:
-        - bookName
-        - bookGenreName
-        - bookImage
-        - bookPublisher
-        - authorName
+        - isbn
       properties:
-        bookName:
+        isbn:
           type: string
-          example: リーダブルコード
-        bookGenreName:
-          type: array
-          items:
-            type: string
-            example: 技術, IT
-        bookImage:
-          type: string
-          example: https://example-book.jpeg
-        bookPublisher:
-          type: string
-          example: 講談社
-        authorName:
-          type: string
-          example: ダスティン・ボズウェル
+          example: afiahjhphawuihahuphwfeuh
 
     Lending-log:
       type: object

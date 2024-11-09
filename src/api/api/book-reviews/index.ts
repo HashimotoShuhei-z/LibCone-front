@@ -17,4 +17,11 @@ export type Methods = DefineMethods<{
     /** Book-reviews are fetched */
     resBody: Types.Review_with_book[];
   };
+
+  post: {
+    status: 201;
+    /** User posted a review */
+    resBody: Types.Review_create_body;
+    reqBody: Types.Review_create_body;
+  };
 }>;

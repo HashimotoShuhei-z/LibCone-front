@@ -85,9 +85,8 @@ export type Reaction_request_body = {
 
 export type Purchase_request = {
   title: string;
-  author: string;
-  publisherName: string;
   itemPrice: number;
+  itemUrl: string;
   userId: number;
   userName: string;
   userIcon: string;
@@ -99,10 +98,12 @@ export type Purchase_request = {
 
 export type Purchase_request_body = {
   title: string;
-  author: string;
-  publisherName: string;
+  isbn: string;
+  itemPrice: number;
+  itemUrl: string;
   userId?: number | undefined;
   purchaseType: '会社用' | '個人用';
+  hopeDeliveryAt: string;
 }
 
 export type Mypage = {
@@ -111,7 +112,6 @@ export type Mypage = {
   userIcon: string;
   monthPoint: number;
   specialPoint: number;
-  totalBooksPurchased: number;
   totalReviews: number;
 }
 
@@ -159,11 +159,7 @@ export type GiftRequest = {
 }
 
 export type Book_create_body = {
-  bookName: string;
-  bookGenreName: string[];
-  bookImage: string;
-  bookPublisher: string;
-  authorName: string;
+  isbn: string;
 }
 
 export type Lending_log = {

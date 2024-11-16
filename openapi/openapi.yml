@@ -475,7 +475,7 @@ paths:
   /api/users/{user_id}/reading-log:
     get:
       tags:
-        - 社員向け機能
+        - 全ユーザー向け機能
       summary: 社員が特定の社員の読書履歴を閲覧
       parameters:
         - in: path

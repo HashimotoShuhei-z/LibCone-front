@@ -326,7 +326,7 @@ paths:
     post:
       tags:
         - 全ユーザー向け機能
-      summary: 書籍のバーコードをスキャンして社内書籍のidを取得
+      summary: 書籍のバーコードをスキャンして社内書籍を取得
       requestBody:
         required: true
         content:
@@ -965,17 +965,9 @@ components:
     Borrow-request-body:
       type: object
       required:
-        - userId
-        - bookId #isbnと悩み
         - startDate
         - endDate
       properties:
-        userId:
-          type: integer
-          example: 1
-        bookId:
-          type: integer
-          example: 1
         startDate:
           type: string
           example: '2024-07-21'

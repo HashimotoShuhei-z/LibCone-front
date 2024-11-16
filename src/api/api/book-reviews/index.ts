@@ -7,8 +7,8 @@ export type Methods = DefineMethods<{
     query?: {
       /** 書籍名での部分検索 */
       book_name?: string | undefined;
-      /** 書籍カテゴリーでソート */
-      book_category_id?: number | undefined;
+      /** 書籍ジャンルでソート */
+      book_genre_id?: number | undefined;
       /** 特定のユーザーの口コミを検索 */
       user_id?: number | undefined;
     } | undefined;

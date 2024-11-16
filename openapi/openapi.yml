@@ -322,6 +322,33 @@ paths:
                 items:
                   $ref: '#/components/schemas/External-book'
 
+  /api/books/scan-serch:
+    post:
+      tags:
+        - 全ユーザー向け機能
+      summary: 書籍のバーコードをスキャンして社内書籍のidを取得
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - isbn
+              properties:
+                isbn:
+                  type: string
+                  example: 908673749211
+      responses:
+        '200':
+          description: Serched book
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Book not found
+
   /api/books/{book_id}/borrow:
     post:
       tags:

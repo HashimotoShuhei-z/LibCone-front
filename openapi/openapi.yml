@@ -1010,8 +1010,9 @@ components:
     Purchase-request:
       type: object
       required:
-        - title
-        - itemPrice
+        - bookName
+        - bookImage
+        - bookPrice
         - userId
         - userName
         - userIcon

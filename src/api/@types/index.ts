@@ -81,8 +81,8 @@ export type Reaction_request_body = {
 }
 
 export type Purchase_request = {
-  title: string;
-  itemPrice: number;
+  title?: string | undefined;
+  itemPrice?: number | undefined;
   userId: number;
   userName: string;
   userIcon: string;

@@ -1012,7 +1012,6 @@ components:
       required:
         - title
         - itemPrice
-        - itemUrl
         - userId
         - userName
         - userIcon
@@ -1027,9 +1026,6 @@ components:
         itemPrice:
           type: integer
           example: 1296
-        itemUrl:
-          type: string
-          example: https://example.com
         userId:
           type: integer
           example: 1
@@ -1063,29 +1059,13 @@ components:
     Purchase-request-body:
       type: object
       required:
-        - title
         - isbn #書籍の識別用に設けられた国際規格コード
-        - itemPrice
-        - itemUrl
-        - userID
         - purchaseType
         - hopeDeliveryAt
       properties:
-        title:
-          type: string
-          example: リーダブルコード
         isbn:
           type: string
           example: ahjkdfhlihweflahlidhfliue
-        itemPrice:
-          type: integer
-          example: 1296
-        itemUrl:
-          type: string
-          example: https://example.com
-        userId:
-          type: integer
-          example: 1
         purchaseType:
           type: string
           enum:

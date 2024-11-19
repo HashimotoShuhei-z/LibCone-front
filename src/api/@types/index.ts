@@ -58,16 +58,13 @@ export type Review = {
 export type Review_with_book = Book & Review
 
 export type Review_create_body = {
-  userId: number;
   bookId: number;
   reviewRate: number;
   reviewTitle: string;
-  review_cotent?: string | undefined;
+  reviewContent: string;
 }
 
 export type Borrow_request_body = {
-  userId: number;
-  bookId: number;
   startDate: string;
   endDate: string;
 }
@@ -86,7 +83,6 @@ export type Reaction_request_body = {
 export type Purchase_request = {
   title: string;
   itemPrice: number;
-  itemUrl: string;
   userId: number;
   userName: string;
   userIcon: string;
@@ -97,13 +93,13 @@ export type Purchase_request = {
 }
 
 export type Purchase_request_body = {
-  title: string;
   isbn: string;
-  itemPrice: number;
-  itemUrl: string;
-  userId?: number | undefined;
   purchaseType: '会社用' | '個人用';
   hopeDeliveryAt: string;
+}
+
+export type Confirm_purchase_request = {
+  request_ids: number[];
 }
 
 export type Mypage = {

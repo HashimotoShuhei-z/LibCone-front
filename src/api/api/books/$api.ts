@@ -1,12 +1,14 @@
 import type { AspidaClient, BasicHeaders } from 'aspida';
 import type { Methods as Methods_idoddp } from './_book_id@number/borrow';
 import type { Methods as Methods_1012xne } from './_book_id@number/return';
+import type { Methods as Methods_1lovcrb } from './scan-serch';
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? 'http://localhost:8000' : baseURL).replace(/\/$/, '');
   const PATH0 = '/api/books';
   const PATH1 = '/borrow';
   const PATH2 = '/return';
+  const PATH3 = '/api/books/scan-serch';
   const POST = 'POST';
 
   return {
@@ -41,6 +43,19 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
           $path: () => `${prefix}${prefix0}${PATH2}`,
         },
       };
+    },
+    scan_serch: {
+      /**
+       * @returns Serched book
+       */
+      post: (option: { body: Methods_1lovcrb['post']['reqBody'], config?: T | undefined }) =>
+        fetch<Methods_1lovcrb['post']['resBody'], BasicHeaders, Methods_1lovcrb['post']['status']>(prefix, PATH3, POST, option).json(),
+      /**
+       * @returns Serched book
+       */
+      $post: (option: { body: Methods_1lovcrb['post']['reqBody'], config?: T | undefined }) =>
+        fetch<Methods_1lovcrb['post']['resBody'], BasicHeaders, Methods_1lovcrb['post']['status']>(prefix, PATH3, POST, option).json().then(r => r.body),
+      $path: () => `${prefix}${PATH3}`,
     },
   };
 };

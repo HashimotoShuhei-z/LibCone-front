@@ -1,14 +1,29 @@
 import type { AspidaClient, BasicHeaders } from 'aspida';
 import { dataToURLString } from 'aspida';
 import type { Methods as Methods_by08hd } from '.';
+import type { Methods as Methods_18q42aa } from './confirm';
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? 'http://localhost:8000' : baseURL).replace(/\/$/, '');
   const PATH0 = '/api/book-purchase-requests';
+  const PATH1 = '/api/book-purchase-requests/confirm';
   const GET = 'GET';
   const POST = 'POST';
 
   return {
+    confirm: {
+      /**
+       * @returns Purchase requests confirmed
+       */
+      post: (option: { body: Methods_18q42aa['post']['reqBody'], config?: T | undefined }) =>
+        fetch<Methods_18q42aa['post']['resBody'], BasicHeaders, Methods_18q42aa['post']['status']>(prefix, PATH1, POST, option).json(),
+      /**
+       * @returns Purchase requests confirmed
+       */
+      $post: (option: { body: Methods_18q42aa['post']['reqBody'], config?: T | undefined }) =>
+        fetch<Methods_18q42aa['post']['resBody'], BasicHeaders, Methods_18q42aa['post']['status']>(prefix, PATH1, POST, option).json().then(r => r.body),
+      $path: () => `${prefix}${PATH1}`,
+    },
     /**
      * @returns Book-requests are fetched
      */

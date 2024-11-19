@@ -7,6 +7,8 @@ export type Methods = DefineMethods<{
     query?: {
       /** 書籍名での部分検索 */
       book_name?: string | undefined;
+      /** userの職種でソート */
+      position_id?: string | undefined;
     } | undefined;
 
     status: 200;

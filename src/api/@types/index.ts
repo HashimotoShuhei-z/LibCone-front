@@ -181,3 +181,24 @@ export type Lending_log_create_body = {
 export type Purchase_create_body = {
   bookRequestIds?: number[] | undefined;
 }
+
+export type Reading_memo = {
+  startPage: number;
+  endPage: number;
+  content: string;
+}
+
+export type Reading_memo_create_body = {
+  bookId: number;
+  startPage: number;
+  endPage: number;
+  content: string;
+}
+
+export type Reading_memo_update_body = {
+  memoId: number;
+  bookId: number;
+  startPage: number;
+  endPage: number;
+  content: string;
+}

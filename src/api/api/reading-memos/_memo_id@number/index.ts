@@ -6,14 +6,14 @@ export type Methods = DefineMethods<{
   get: {
     status: 200;
     /** Reading-memo is fetched */
-    resBody: Types.Mypage;
+    resBody: Types.Reading_memo;
   };
 
   put: {
     status: 201;
     /** Reading-memo is edited */
-    resBody: Types.Lending_log_create_body;
-    reqBody: Types.Lending_log_create_body;
+    resBody: Types.Reading_memo_update_body;
+    reqBody: Types.Reading_memo_update_body;
   };
 
   delete: {

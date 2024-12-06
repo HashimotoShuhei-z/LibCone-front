@@ -765,7 +765,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Lending-log'
+                  $ref: '#/components/schemas/Reading-memo'
     post:
       tags:
         - 社員向け機能
@@ -775,14 +775,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Lending-log-create-body'
+              $ref: '#/components/schemas/Reading-memo-create-body'
       responses:
         '201':
           description: Reading-memo is created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Lending-log-create-body'
+                $ref: '#/components/schemas/Reading-memo-create-body'
 
   /api/reading-memos/{memo_id}:
     get:
@@ -801,7 +801,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Mypage'
+                $ref: '#/components/schemas/Reading-memo'
     put:
       tags:
         - 社員向け機能
@@ -817,14 +817,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Lending-log-create-body'
+              $ref: '#/components/schemas/Reading-memo-update-body'
       responses:
         '201':
           description: Reading-memo is edited
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Lending-log-create-body'
+                $ref: '#/components/schemas/Reading-memo-update-body'
     delete:
       tags:
         - 社員向け機能
@@ -1431,3 +1431,66 @@ components:
           items:
             type: integer
             example: 2, 5, 6, 8, 10
+
+    Reading-memo:
+      type: object
+      required:
+        - startPage
+        - endPage
+        - content
+      properties:
+        startPage:
+          type: integer
+          example: 23
+        endPage:
+          type: integer
+          example: 46
+        content:
+          type: string
+          example: テーブルの正規化について学んだ。
+
+    Reading-memo-create-body:
+      type: object
+      required:
+        - bookId
+        - startPage
+        - endPage
+        - content
+      properties:
+        bookId:
+          type: integer
+          example: 3
+        startPage:
+          type: integer
+          example: 23
+        endPage:
+          type: integer
+          example: 46
+        content:
+          type: string
+          example: テーブルの正規化について学んだ。
+
+    Reading-memo-update-body:
+      type: object
+      required:
+        - memoId
+        - bookId
+        - startPage
+        - endPage
+        - content
+      properties:
+        memoId:
+          type: integer
+          example: 2
+        bookId:
+          type: integer
+          example: 3
+        startPage:
+          type: integer
+          example: 23
+        endPage:
+          type: integer
+          example: 46
+        content:
+          type: string
+          example: テーブルの正規化について学んだ。

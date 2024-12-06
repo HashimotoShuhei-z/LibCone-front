@@ -1,8 +1,8 @@
-name: lint
+name: format
 on: [push]
 
 jobs:
-  lint:
+  format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -19,5 +19,5 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: Run ESLint
-        run: npm run lint
+      - name: Run format
+        run: npm run format

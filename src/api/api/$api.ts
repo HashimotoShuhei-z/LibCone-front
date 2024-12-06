@@ -21,6 +21,8 @@ import type { Methods as Methods_idk8rz } from './login';
 import type { Methods as Methods_1rpsris } from './logout';
 import type { Methods as Methods_1npxrj4 } from './my-page';
 import type { Methods as Methods_yp8eup } from './purchase';
+import type { Methods as Methods_fq82ik } from './reading-memos';
+import type { Methods as Methods_14x9mh5 } from './reading-memos/_memo_id@number';
 import type { Methods as Methods_1xhiioa } from './users';
 import type { Methods as Methods_8ls8pm } from './users/_user_id@number';
 import type { Methods as Methods_1n5vjoq } from './users/_user_id@number/reading-log';
@@ -46,9 +48,10 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH15 = '/api/logout';
   const PATH16 = '/api/my-page';
   const PATH17 = '/api/purchase';
-  const PATH18 = '/api/users';
-  const PATH19 = '/reading-log';
-  const PATH20 = '/api/users/register';
+  const PATH18 = '/api/reading-memos';
+  const PATH19 = '/api/users';
+  const PATH20 = '/reading-log';
+  const PATH21 = '/api/users/register';
   const GET = 'GET';
   const POST = 'POST';
   const PUT = 'PUT';
@@ -431,9 +434,63 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         fetch<Methods_yp8eup['post']['resBody'], BasicHeaders, Methods_yp8eup['post']['status']>(prefix, PATH17, POST, option).json().then(r => r.body),
       $path: () => `${prefix}${PATH17}`,
     },
+    reading_memos: {
+      _memo_id: (val1: number) => {
+        const prefix1 = `${PATH18}/${val1}`;
+
+        return {
+          /**
+           * @returns Reading-memo is fetched
+           */
+          get: (option?: { config?: T | undefined } | undefined) =>
+            fetch<Methods_14x9mh5['get']['resBody'], BasicHeaders, Methods_14x9mh5['get']['status']>(prefix, prefix1, GET, option).json(),
+          /**
+           * @returns Reading-memo is fetched
+           */
+          $get: (option?: { config?: T | undefined } | undefined) =>
+            fetch<Methods_14x9mh5['get']['resBody'], BasicHeaders, Methods_14x9mh5['get']['status']>(prefix, prefix1, GET, option).json().then(r => r.body),
+          /**
+           * @returns Reading-memo is edited
+           */
+          put: (option: { body: Methods_14x9mh5['put']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods_14x9mh5['put']['resBody'], BasicHeaders, Methods_14x9mh5['put']['status']>(prefix, prefix1, PUT, option).json(),
+          /**
+           * @returns Reading-memo is edited
+           */
+          $put: (option: { body: Methods_14x9mh5['put']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods_14x9mh5['put']['resBody'], BasicHeaders, Methods_14x9mh5['put']['status']>(prefix, prefix1, PUT, option).json().then(r => r.body),
+          delete: (option?: { config?: T | undefined } | undefined) =>
+            fetch<void, BasicHeaders, Methods_14x9mh5['delete']['status']>(prefix, prefix1, DELETE, option).send(),
+          $delete: (option?: { config?: T | undefined } | undefined) =>
+            fetch<void, BasicHeaders, Methods_14x9mh5['delete']['status']>(prefix, prefix1, DELETE, option).send().then(r => r.body),
+          $path: () => `${prefix}${prefix1}`,
+        };
+      },
+      /**
+       * @returns Reading-memos are fetched
+       */
+      get: (option?: { config?: T | undefined } | undefined) =>
+        fetch<Methods_fq82ik['get']['resBody'], BasicHeaders, Methods_fq82ik['get']['status']>(prefix, PATH18, GET, option).json(),
+      /**
+       * @returns Reading-memos are fetched
+       */
+      $get: (option?: { config?: T | undefined } | undefined) =>
+        fetch<Methods_fq82ik['get']['resBody'], BasicHeaders, Methods_fq82ik['get']['status']>(prefix, PATH18, GET, option).json().then(r => r.body),
+      /**
+       * @returns Reading-memo is created
+       */
+      post: (option: { body: Methods_fq82ik['post']['reqBody'], config?: T | undefined }) =>
+        fetch<Methods_fq82ik['post']['resBody'], BasicHeaders, Methods_fq82ik['post']['status']>(prefix, PATH18, POST, option).json(),
+      /**
+       * @returns Reading-memo is created
+       */
+      $post: (option: { body: Methods_fq82ik['post']['reqBody'], config?: T | undefined }) =>
+        fetch<Methods_fq82ik['post']['resBody'], BasicHeaders, Methods_fq82ik['post']['status']>(prefix, PATH18, POST, option).json().then(r => r.body),
+      $path: () => `${prefix}${PATH18}`,
+    },
     users: {
       _user_id: (val1: number) => {
-        const prefix1 = `${PATH18}/${val1}`;
+        const prefix1 = `${PATH19}/${val1}`;
 
         return {
           reading_log: {
@@ -441,13 +498,13 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
              * @returns Reading-log is fetched
              */
             get: (option?: { config?: T | undefined } | undefined) =>
-              fetch<Methods_1n5vjoq['get']['resBody'], BasicHeaders, Methods_1n5vjoq['get']['status']>(prefix, `${prefix1}${PATH19}`, GET, option).json(),
+              fetch<Methods_1n5vjoq['get']['resBody'], BasicHeaders, Methods_1n5vjoq['get']['status']>(prefix, `${prefix1}${PATH20}`, GET, option).json(),
             /**
              * @returns Reading-log is fetched
              */
             $get: (option?: { config?: T | undefined } | undefined) =>
-              fetch<Methods_1n5vjoq['get']['resBody'], BasicHeaders, Methods_1n5vjoq['get']['status']>(prefix, `${prefix1}${PATH19}`, GET, option).json().then(r => r.body),
-            $path: () => `${prefix}${prefix1}${PATH19}`,
+              fetch<Methods_1n5vjoq['get']['resBody'], BasicHeaders, Methods_1n5vjoq['get']['status']>(prefix, `${prefix1}${PATH20}`, GET, option).json().then(r => r.body),
+            $path: () => `${prefix}${prefix1}${PATH20}`,
           },
           /**
            * @returns User is fetched
@@ -477,26 +534,26 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
          * @returns User registered
          */
         post: (option: { body: Methods_qytqqa['post']['reqBody'], config?: T | undefined }) =>
-          fetch<Methods_qytqqa['post']['resBody'], BasicHeaders, Methods_qytqqa['post']['status']>(prefix, PATH20, POST, option).json(),
+          fetch<Methods_qytqqa['post']['resBody'], BasicHeaders, Methods_qytqqa['post']['status']>(prefix, PATH21, POST, option).json(),
         /**
          * @returns User registered
          */
         $post: (option: { body: Methods_qytqqa['post']['reqBody'], config?: T | undefined }) =>
-          fetch<Methods_qytqqa['post']['resBody'], BasicHeaders, Methods_qytqqa['post']['status']>(prefix, PATH20, POST, option).json().then(r => r.body),
-        $path: () => `${prefix}${PATH20}`,
+          fetch<Methods_qytqqa['post']['resBody'], BasicHeaders, Methods_qytqqa['post']['status']>(prefix, PATH21, POST, option).json().then(r => r.body),
+        $path: () => `${prefix}${PATH21}`,
       },
       /**
        * @returns Users are fetched
        */
       get: (option?: { query?: Methods_1xhiioa['get']['query'] | undefined, config?: T | undefined } | undefined) =>
-        fetch<Methods_1xhiioa['get']['resBody'], BasicHeaders, Methods_1xhiioa['get']['status']>(prefix, PATH18, GET, option).json(),
+        fetch<Methods_1xhiioa['get']['resBody'], BasicHeaders, Methods_1xhiioa['get']['status']>(prefix, PATH19, GET, option).json(),
       /**
        * @returns Users are fetched
        */
       $get: (option?: { query?: Methods_1xhiioa['get']['query'] | undefined, config?: T | undefined } | undefined) =>
-        fetch<Methods_1xhiioa['get']['resBody'], BasicHeaders, Methods_1xhiioa['get']['status']>(prefix, PATH18, GET, option).json().then(r => r.body),
+        fetch<Methods_1xhiioa['get']['resBody'], BasicHeaders, Methods_1xhiioa['get']['status']>(prefix, PATH19, GET, option).json().then(r => r.body),
       $path: (option?: { method?: 'get' | undefined; query: Methods_1xhiioa['get']['query'] } | undefined) =>
-        `${prefix}${PATH18}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
+        `${prefix}${PATH19}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`,
     },
   };
 };

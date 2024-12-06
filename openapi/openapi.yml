@@ -752,6 +752,93 @@ paths:
               schema:
                 $ref: '#/components/schemas/User-create-body'
 
+  /api/reading-memos:
+    get:
+      tags:
+        - 社員向け機能
+      summary: 社員の日々の読書記録を一覧取得
+      responses:
+        '200':
+          description: Reading-memos are fetched
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lending-log'
+    post:
+      tags:
+        - 社員向け機能
+      summary: 日々の読書記録を作成
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lending-log-create-body'
+      responses:
+        '201':
+          description: Reading-memo is created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lending-log-create-body'
+
+  /api/reading-memos/{memo_id}:
+    get:
+      tags:
+        - 社員向け機能
+      summary: 社員の日々の読書記録を詳細取得
+      parameters:
+        - in: path
+          name: memo_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Reading-memo is fetched
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mypage'
+    put:
+      tags:
+        - 社員向け機能
+      summary: 日々の読書記録の編集
+      parameters:
+        - in: path
+          name: memo_id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lending-log-create-body'
+      responses:
+        '201':
+          description: Reading-memo is edited
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lending-log-create-body'
+    delete:
+      tags:
+        - 社員向け機能
+      summary: 日々の読書記録の削除
+      parameters:
+        - in: path
+          name: memo_id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Reading-memo is deleted
+
 components:
   securitySchemes:
     Jwt-Auth:

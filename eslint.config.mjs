@@ -8,8 +8,8 @@ export default [
   { files: ['**/*.{js,mjs,cjs,ts,jsx,tsx}'] },
   {
     languageOptions: {
-      globals: globals.browser
-    }
+      globals: globals.browser,
+    },
   },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
@@ -17,8 +17,8 @@ export default [
     ...pluginReact.configs.flat.recommended,
     settings: {
       react: {
-        version: 'detect' // Reactのバージョンを自動検出
-      }
-    }
-  }
+        version: 'detect', // Reactのバージョンを自動検出
+      },
+    },
+  },
 ]

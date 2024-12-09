@@ -1,6 +1,8 @@
 import useAspidaSWR from '@aspida/swr'
 import { useApiClient } from '../common'
 import { Internal_book, Review } from '../../api/@types'
+import { useEffect } from 'react'
+import { mutate } from 'swr'
 
 // 社内書籍の一覧を取得するカスタムフック
 type UseInternalBookListProps = {
@@ -14,12 +16,16 @@ type UseInternalBookList = {
 
 export const useInternalBookList = (props: UseInternalBookListProps): UseInternalBookList => {
   const client = useApiClient()
-  const { data: internalBooks } = useAspidaSWR(client.internal_books, {
+  const { data: internalBooks, mutate } = useAspidaSWR(client.internal_books, {
     query: {
       book_name: props.searchTerm,
       book_genre_id: props.genreId
     }
   })
+  // searchTerm が変わったときにデータをリフェッチする
+  useEffect(() => {
+    mutate() // キャッシュを無視してリフェッチする
+  }, [props.searchTerm, props.genreId])
 
   return {
     internalBooks

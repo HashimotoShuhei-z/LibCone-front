@@ -2,7 +2,6 @@ import useAspidaSWR from '@aspida/swr'
 import { useApiClient } from '../common'
 import { Internal_book, Review } from '../../api/@types'
 import { useEffect } from 'react'
-import { mutate } from 'swr'
 
 // 社内書籍の一覧を取得するカスタムフック
 type UseInternalBookListProps = {

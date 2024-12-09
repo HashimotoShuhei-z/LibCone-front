@@ -904,7 +904,7 @@ components:
     Book:
       type: object
       required:
-        - bookId
+        - companyBookId
         - bookName
         - bookGenreName
         - bookImage
@@ -912,7 +912,7 @@ components:
         - authorId
         - authorName
       properties:
-        bookId:
+        companyBookId:
           type: integer
           example: 1
         bookName:

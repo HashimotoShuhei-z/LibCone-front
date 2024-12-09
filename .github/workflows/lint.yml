@@ -5,18 +5,17 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v3
 
       - name: Cache node_modules
         id: cache
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}-v2
           restore-keys: ${{ runner.os }}-node_modules-
 
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: npm install --production=false
 
       - name: Run ESLint

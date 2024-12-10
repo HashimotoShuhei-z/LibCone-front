@@ -1,12 +1,15 @@
 import { Link, Table, TableContainer, Tbody, Td, Th, Thead, Tr, Box, Button } from '@chakra-ui/react'
 import { FaStar } from 'react-icons/fa'
 import { Internal_book } from '../../api/@types'
+import { useNavigate } from 'react-router-dom'
 
 interface InternalBooksTableProps {
   internalBooks: Internal_book[] | undefined
 }
 
 export const InternalBooksTable = ({ internalBooks }: InternalBooksTableProps) => {
+  const navigate = useNavigate()
+
   // 星のアイコンを生成する関数
   const renderStars = (rating: number) => {
     const fullStars = Math.floor(rating) // 整数部分の星の数
@@ -39,7 +42,7 @@ export const InternalBooksTable = ({ internalBooks }: InternalBooksTableProps) =
 
   // 借りるボタンのクリックイベントハンドラ
   const handleBorrow = (companyBookId: number) => {
-    console.log(`Borrow book with companyBookId: ${companyBookId}`)
+    navigate(`/internal_books/${companyBookId}/borrow`)
   }
 
   return (

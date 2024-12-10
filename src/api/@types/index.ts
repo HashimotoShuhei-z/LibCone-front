@@ -20,7 +20,7 @@ export type Admin_register_request_body = User_register_request_body & {
 }
 
 export type Book = {
-  bookId: number;
+  companyBookId: number;
   bookName: string;
   bookGenreName: string[];
   bookImage: string;
